@@ -13,7 +13,7 @@ from src.base_config import Config
 
 NUM_CLASSES = 1
 N_EPOCHS = 40
-BATCH_SIZE = 3
+BATCH_SIZE = 2
 TRAIN_SIZE = 0.8
 IMG_HEIGHT = 512
 IMG_WIDTH = 512
