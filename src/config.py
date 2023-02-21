@@ -10,6 +10,8 @@ from segmentation_models_pytorch.losses import DiceLoss
 import cv2
 
 from src.base_config import Config
+from src.constants import DF_PATH, TRAIN_IMAGES_PATH
+
 
 NUM_CLASSES = 1
 N_EPOCHS = 40
@@ -77,6 +79,8 @@ config = Config(
     scheduler_kwargs={
         "lr_lambda": lambda epoch: 0.9 ** epoch,
     },
+    df_path=DF_PATH,
+    train_images_path=TRAIN_IMAGES_PATH,
     train_size=TRAIN_SIZE,
     img_width=IMG_HEIGHT,
     img_height=IMG_WIDTH,

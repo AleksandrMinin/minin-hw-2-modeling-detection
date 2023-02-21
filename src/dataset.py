@@ -12,17 +12,17 @@ from torch.utils.data import DataLoader
 from sklearn.model_selection import train_test_split
 
 from src.config import Config
-from src.constants import DF_PATH, TRAIN_IMAGES_PATH
 from src.tools import read_rgb_img
 
 
 class BboxDataset(Dataset):
-    def __init__(self, df: pd.DataFrame, transforms: albu.Compose):
+    def __init__(self, df: pd.DataFrame, transforms: albu.Compose, config: Config):
         self._df = df
         self._transforms = transforms
+        self._config = config
 
     def __getitem__(self, idx: int) -> tp.Tuple[np.ndarray, np.ndarray, np.ndarray]:
-        imp_path = osp.join(TRAIN_IMAGES_PATH, self._df.iloc[idx][0])
+        imp_path = osp.join(self._config.train_images_path, self._df.iloc[idx][0])
         image = read_rgb_img(imp_path)
         bbox = _get_bbox_from_json(self._df.iloc[idx][1])
         mask = _get_mask_from_bbox(bbox, image)
@@ -98,16 +98,16 @@ def get_datasets(config: Config) -> tp.Tuple[Dataset, Dataset, Dataset]:  # noqa
     train_augs = config.train_augmentation
     test_augs = config.val_augmentation
     
-    train_dataset = BboxDataset(train_df, transforms=train_augs)
-    valid_dataset = BboxDataset(valid_df, transforms=test_augs)
-    test_dataset = BboxDataset(test_df, transforms=test_augs)
+    train_dataset = BboxDataset(train_df, transforms=train_augs, config=config)
+    valid_dataset = BboxDataset(valid_df, transforms=test_augs, config=config)
+    test_dataset = BboxDataset(test_df, transforms=test_augs, config=config)
     
     return train_dataset, valid_dataset, test_dataset
 
 
 def _get_dataframes(config: Config) -> tp.Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     logger = logging.getLogger(__name__)
-    df = pd.read_csv(DF_PATH, sep='\t')
+    df = pd.read_csv(config.df_path, sep='\t')
     train_df, other_df = train_test_split(df, train_size=config.train_size, random_state=42, shuffle=True)
     valid_df, test_df = train_test_split(other_df, train_size=0.5, shuffle=False)
     

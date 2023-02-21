@@ -20,6 +20,8 @@ class Config:
     optimizer_kwargs: tp.Mapping
     scheduler: tp.Any
     scheduler_kwargs: tp.Mapping
+    df_path: str
+    train_images_path: str
     train_size: int
     img_width: int
     img_height: int

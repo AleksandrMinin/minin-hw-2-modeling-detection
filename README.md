@@ -59,6 +59,9 @@ CUDA_VISIBLE_DEVICES=0 OMP_NUM_THREADS=1 python train.py
 2. [experiment_2](https://app.clear.ml/projects/2b135481bfd94a21a4b3197ecaf4e486/experiments/fad68c85ddfe468898628e5ae6803fbd/output/execution)
 3. [experiment_3](https://app.clear.ml/projects/2b135481bfd94a21a4b3197ecaf4e486/experiments/d11eb703379c427481aed607dc0cf90a/output/execution)
 
+### Тестирование модели
+Результаты сегментации лучшей модели можно посмотреть в  /notebooks/check_pred_mask.ipynb
+
 ### DVC
 #### Добавление модели в DVC
 1. Инициализация DVC
@@ -105,4 +108,17 @@ CUDA_VISIBLE_DEVICES=0 OMP_NUM_THREADS=1 python train.py
    ```
     git pull origin main
     dvc pull
+   ```
+
+### Запуск литера
+Из папки с проектом выполнить:
+   ```
+   python -m pip install wemake-python-styleguide==0.16.1
+   flake8 src/
+   ```
+
+### Запуск тестов на pytest
+Из папки с проектом выполнить:
+   ```
+   PYTHONPATH=. pytest tests -p no:warnings
    ```
