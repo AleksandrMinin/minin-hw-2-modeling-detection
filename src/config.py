@@ -1,7 +1,4 @@
 from datetime import datetime
-from functools import partial
-import os
-
 import albumentations as albu
 import torch
 from torch.nn import BCEWithLogitsLoss
@@ -27,23 +24,23 @@ train_augmentation = albu.Compose(
         albu.HorizontalFlip(p=0.5),
         albu.VerticalFlip(p=0.5),
         albu.HueSaturationValue(
-            hue_shift_limit=20, 
-            sat_shift_limit=30, 
-            val_shift_limit=20, 
-            p=0.5
+            hue_shift_limit=20,
+            sat_shift_limit=30,
+            val_shift_limit=20,
+            p=0.5,
         ),
         albu.RandomBrightnessContrast(
-            brightness_limit=0.2, 
-            contrast_limit=0.2, 
+            brightness_limit=0.2,
+            contrast_limit=0.2,
             p=0.5,
         ),
         albu.ShiftScaleRotate(),
         albu.GaussianBlur(),
         albu.Resize(height=IMG_HEIGHT, width=IMG_WIDTH),
         albu.PadIfNeeded(
-            min_height=int(1.5*IMG_HEIGHT), 
-            min_width=int(1.5*IMG_WIDTH), 
-            border_mode=cv2.BORDER_CONSTANT, 
+            min_height=int(1.5 * IMG_HEIGHT),
+            min_width=int(1.5 * IMG_WIDTH),
+            border_mode=cv2.BORDER_CONSTANT,
             p=0.3,
         ),
         albu.Resize(height=IMG_HEIGHT, width=IMG_WIDTH),
@@ -52,10 +49,10 @@ train_augmentation = albu.Compose(
 
 val_augmentation = albu.Compose(
     [
-        albu.Resize(height=IMG_HEIGHT, width=IMG_WIDTH), 
+        albu.Resize(height=IMG_HEIGHT, width=IMG_WIDTH),
     ])
 
-        
+
 config = Config(
     num_workers=6,
     seed=42,

@@ -1,5 +1,4 @@
 import typing as tp
-from collections import defaultdict
 from typing import Any
 from catalyst.core.logger import ILogger
 from catalyst.core.runner import IRunner
@@ -34,7 +33,6 @@ class ClearMLLogger(ILogger):  # noqa: WPS338
         task.connect(config.to_dict())
         self.clearml_logger = task.get_logger()
 
-
     def log_metrics(
         self,
         metrics: tp.Dict[str, float],
@@ -64,18 +62,15 @@ class ClearMLLogger(ILogger):  # noqa: WPS338
             iteration=epoch,
         )
 
-
     def _log_train_metrics(self, metrics: tp.Dict[str, float], step: int, loader_key: str):
         log_keys = [k for log_m in self.metrics_to_log for k in metrics.keys() if log_m in k]
         for k in log_keys:
             self._report_scalar(k, loader_key, metrics[k], step)
 
-
     def _log_infer_metrics(self, metrics: tp.Dict[str, float]):  # noqa: WPS210
-        test_results = pd.DataFrame.from_dict(metrics, orient='index', columns=[''])
-        test_results = test_results.astype('float')
+        test_results = pd.DataFrame.from_dict(metrics, orient="index", columns=[""])
+        test_results = test_results.astype("float")
         self.logger.report_table(title="Test Results", series="Test Results", iteration=0, table_plot=test_results)
-
 
     def flush_log(self):
         self.logger.flush()

@@ -2,7 +2,6 @@ import json
 import os
 import typing as tp
 from dataclasses import asdict, dataclass, field
-from pydantic import BaseModel
 
 import albumentations as albu
 import torch
